@@ -21,6 +21,14 @@ set_scene <- function(data,
     factor = "discrete"
   )
 
+  n_complete <- sum(complete.cases(data))
+  n_missing <- nrow(data) - n_complete
+
+  if (n_missing > 0) {
+    warning(paste("Removed", n_missing, "rows with missing values from the data"))
+    data <- na.omit(data)
+  }
+
   types <- lapply(as.list(data), function(x) {
     typeMap[[class(x)[which(class(x) %in% names(typeMap))]]]
   })
